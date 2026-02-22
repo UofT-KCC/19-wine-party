@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QR 체크인 관리자</title>
+  <script src="https://unpkg.com/html5-qrcode"></script>
+  <style>
+    body { font-family: -apple-system, sans-serif; text-align: center; background: #f4f7f6; margin: 0; padding: 20px; }
+    h2 { color: #333; }
+    #reader { width: 100%; max-width: 400px; margin: 20px auto; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+    #result-container { max-width: 400px; margin: 20px auto; padding: 20px; border-radius: 12px; background: white; min-height: 80px; display: flex; align-items: center; justify-content: center; flex-direction: column; }
+    .status-msg { font-size: 1.1rem; font-weight: bold; }
+    .success { color: #2ecc71; border: 2px solid #2ecc71; }
+    .error { color: #e74c3c; border: 2px solid #e74c3c; }
+    .loading { color: #3498db; }
+  </style>
+</head>
+<body>
+
+  <h2>스태프용 체크인 스캐너</h2>
+  <div id="reader"></div>
+  
+  <div id="result-container">
+    <div id="status-text" class="status-msg">QR 코드를 스캔해주세요</div>
+    <div id="name-text" style="font-size: 1.5rem; margin-top: 10px;"></div>
+  </div>
+
+  <script>
+    // 1. 본인의 GAS 웹 앱 URL로 반드시 수정하세요!
+    const GAS_URL = "https://script.google.com/macros/s/AKfycbyNegMzzmO27QnV0y1osCUUTwTpSB0BQE5dgXTn3dS4-CizycO6AEGE6VE_RZccwmHXE/exec";
+
+    let isProcessing = false;
+
+    function onScanSuccess(decodedText) {
+      if (isProcessing) return; // 이미 요청 중이면 무시
+      
+      isProcessing = true;
+      const statusText = document.getElementById('status-text');
+      const nameText = document.getElementById('name-text');
+      
+      statusText.innerText = "데이터 확인 중...";
+      statusText.className = "status-msg loading";
+      nameText.innerText = "";
+
+      // 2. 백엔드(GAS) 호출
+      fetch(`${GAS_URL}?id=${decodedText}`, { redirect: 'follow' })
+        .then(response => response.json())
+        .then(data => {
+          if (data.status === "success") {
+            statusText.innerText = "✅ 체크인 성공!";
+            statusText.className = "status-msg success";
+            nameText.innerText = data.name + " 님";
+          } else if (data.status === "already") {
+            statusText.innerText = "⚠️ 이미 입장 완료";
+            statusText.className = "status-msg error";
+            nameText.innerText = data.name + " 님";
+          } else {
+            statusText.innerText = "❌ 등록되지 않은 정보";
+            statusText.className = "status-msg error";
+          }
+          
+          // 3초 후 다음 스캔을 위해 초기화
+          setTimeout(() => {
+            isProcessing = false;
+            statusText.innerText = "QR 코드를 스캔해주세요";
+            statusText.className = "status-msg";
+            nameText.innerText = "";
+          }, 3000);
+        })
+        .catch(err => {
+          console.error(err);
+          statusText.innerText = "네트워크 오류 발생";
+          isProcessing = false;
+        });
+    }
+
+    // 스캐너 설정
+    const html5QrcodeScanner = new Html5QrcodeScanner("reader", { 
+      fps: 10, 
+      qrbox: { width: 250, height: 250 },
+      rememberLastUsedCamera: true
+    });
+    
+    html5QrcodeScanner.render(onScanSuccess);
+  </script>
+</body>
+</html>
