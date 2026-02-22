@@ -1,0 +1,78 @@
+body {
+  font-family: -apple-system, sans-serif;
+  text-align: center;
+  background: #f4f7f6;
+  margin: 0;
+  padding: 20px;
+}
+
+h2 {
+  color: #333;
+}
+
+#reader {
+  width: 100%;
+  max-width: 400px;
+  margin: 20px auto;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+#result-container {
+  max-width: 400px;
+  margin: 20px auto;
+  padding: 20px;
+  border-radius: 12px;
+  background: white;
+  min-height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.status-msg {
+  font-size: 1.1rem;
+  font-weight: bold;
+}
+
+.success {
+  color: #2ecc71;
+  border: 2px solid #2ecc71;
+  padding: 5px 10px;
+  border-radius: 8px;
+}
+
+.error {
+  color: #e74c3c;
+  border: 2px solid #e74c3c;
+  padding: 5px 10px;
+  border-radius: 8px;
+}
+
+.loading {
+  color: #3498db;
+}
+
+#reader button {
+  padding: 10px 15px;
+  margin: 5px;
+  border: none;
+  background-color: #3498db;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1em;
+}
+
+#reader button:hover {
+  background-color: #2980b9;
+}
+
+#reader select {
+  padding: 8px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  margin-bottom: 10px;
+}
