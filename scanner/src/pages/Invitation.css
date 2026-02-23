@@ -1,0 +1,156 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap');
+
+.invitation-page {
+  --wine-red: #7b1c35;
+  --wine-red-light: #9a2b48;
+  --bg-color: #fcfaf8;
+  --card-bg: #ffffff;
+  --text-main: #2d2626;
+  --text-muted: #6b6363;
+  --border-color: #e5dfdf;
+  --shadow: 0 10px 30px rgba(123, 28, 53, 0.08);
+
+  margin: 0;
+  padding: 0;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-main);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.invitation-page .container {
+  width: 100%;
+  padding: 20px;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+}
+
+.invitation-page .card {
+  background-color: var(--card-bg);
+  border-radius: 16px;
+  box-shadow: var(--shadow);
+  padding: 40px 30px;
+  width: 100%;
+  max-width: 420px;
+  text-align: center;
+  border: 1px solid rgba(123, 28, 53, 0.05);
+}
+
+.invitation-page .title {
+  font-family: 'Playfair Display', serif;
+  color: var(--wine-red);
+  margin: 0 0 10px 0;
+  font-size: 2rem;
+  letter-spacing: -0.5px;
+  line-height: 1.2;
+}
+
+.invitation-page .subtitle {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  margin: 0 0 35px 0;
+  font-weight: 300;
+}
+
+.invitation-page .form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.invitation-page .input {
+  width: 100%;
+  padding: 14px 16px;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  font-size: 1rem;
+  font-family: inherit;
+  box-sizing: border-box;
+  transition: all 0.2s ease;
+  background-color: #faf9f9;
+  text-align: center;
+}
+
+.invitation-page .input:focus {
+  outline: none;
+  border-color: var(--wine-red);
+  background-color: #fff;
+  box-shadow: 0 0 0 3px rgba(123, 28, 53, 0.1);
+}
+
+.invitation-page .input::placeholder {
+  color: #adb5bd;
+}
+
+.invitation-page .button {
+  background-color: var(--wine-red);
+  color: white;
+  border: none;
+  padding: 14px 20px;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+  font-family: inherit;
+  width: 100%;
+}
+
+.invitation-page .button:hover {
+  background-color: var(--wine-red-light);
+}
+
+.invitation-page .button:active {
+  transform: scale(0.98);
+}
+
+.invitation-page .button.secondary {
+  background-color: transparent;
+  color: var(--wine-red);
+  border: 1px solid var(--wine-red);
+  padding: 10px 16px;
+  margin-top: 15px;
+}
+
+.invitation-page .button.secondary:hover {
+  background-color: rgba(123, 28, 53, 0.05);
+}
+
+.invitation-page .qr-container {
+  margin-top: 40px;
+  padding-top: 30px;
+  border-top: 1px dashed var(--border-color);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  animation: fadeIn 0.4s ease;
+}
+
+.invitation-page .qr-wrapper {
+  background: white;
+  padding: 15px;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+  border: 1px solid var(--border-color);
+  display: inline-block;
+  margin-bottom: 12px;
+}
+
+.invitation-page .qr-value {
+  margin: 0;
+  font-family: monospace;
+  font-size: 1.1rem;
+  color: var(--text-main);
+  letter-spacing: 1px;
+  font-weight: 600;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
