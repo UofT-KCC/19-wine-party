@@ -13,6 +13,7 @@ const Invitation = () => {
   const [code, setCode] = useState(initialCode);
   const [submitted, setSubmitted] = useState(!!initialCode);
   const [showScrollHint, setShowScrollHint] = useState(true);
+  const [activeIndex, setActiveIndex] = useState(0);
   const scrollRef = useRef(null);
   const canvasContainerRef = useRef(null);
   const engineRef = useRef(null);
@@ -30,6 +31,13 @@ const Invitation = () => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
           entry.target.classList.add('visible');
+          
+          // Determine the index of the intersecting section
+          const sections = document.querySelectorAll('.v3-section');
+          const index = Array.from(sections).indexOf(entry.target);
+          if (index !== -1) {
+            setActiveIndex(index);
+          }
         } else {
           entry.target.classList.remove('visible');
         }
@@ -47,8 +55,8 @@ const Invitation = () => {
       });
     }, { threshold: 0 });
 
-    const sections = document.querySelectorAll('.v3-section');
-    sections.forEach((section) => sectionObserver.observe(section));
+    const sectionsList = document.querySelectorAll('.v3-section');
+    sectionsList.forEach((section) => sectionObserver.observe(section));
     
     if (canvasContainerRef.current) {
       engineVisibilityObserver.observe(canvasContainerRef.current);
@@ -94,6 +102,13 @@ const Invitation = () => {
       engineRef.current?.dispose();
     };
   }, []);
+
+  const scrollToSection = (index) => {
+    const sections = document.querySelectorAll('.v3-section');
+    if (sections[index]) {
+      sections[index].scrollIntoView({ behavior: 'smooth' });
+    }
+  };
 
   const handleCodeSubmit = (e) => {
     if (e) e.preventDefault();
@@ -181,7 +196,7 @@ const Invitation = () => {
 
       {/* Phase 4: QR Section */}
       <section className="v3-section">
-        <div className="v3-card">
+        <div className="v3-card v3-card-invitation">
           <h1>INVITATION</h1>
           <div className="v3-qr-box">
             <div className="v3-qr-container">
@@ -239,6 +254,18 @@ const Invitation = () => {
       <div className={`v3-scroll-hint ${!showScrollHint ? 'hidden' : ''}`}>
         <div className="v3-arrow"></div>
         <span>SCROLL</span>
+      </div>
+
+      {/* Navigation Dots */}
+      <div className={`v3-nav-dots ${activeIndex === 0 ? 'hidden' : ''}`}>
+        {[0, 1, 2, 3].map((index) => (
+          <button
+            key={index}
+            className={`v3-nav-dot ${activeIndex === index ? 'active' : ''}`}
+            onClick={() => scrollToSection(index)}
+            aria-label={`Go to section ${index + 1}`}
+          />
+        ))}
       </div>
     </div>
   );
