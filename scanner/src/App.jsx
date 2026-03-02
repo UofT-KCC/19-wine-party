@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Home from './pages/Home';
-import Scanner from './pages/Scanner';
 import Invitation from './pages/Invitation';
+import Scanner from './pages/Scanner';
 
 function App() {
   return (

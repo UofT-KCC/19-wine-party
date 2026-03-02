@@ -1,156 +1,180 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap');
+/* Invitation - Optimized 3D + CSS Hybrid version */
 
-.invitation-page {
-  --wine-red: #7b1c35;
-  --wine-red-light: #9a2b48;
-  --bg-color: #fcfaf8;
-  --card-bg: #ffffff;
-  --text-main: #2d2626;
-  --text-muted: #6b6363;
-  --border-color: #e5dfdf;
-  --shadow: 0 10px 30px rgba(123, 28, 53, 0.08);
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css");
 
-  margin: 0;
-  padding: 0;
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-  background-color: var(--bg-color);
-  color: var(--text-main);
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+:root {
+  --v3-bg: #2d0a15;
+  --v3-wine: #f82046;
+  --v3-gold: #e2b86a;
+  --v3-text: #fff6f8;
+  --v3-glass: rgba(255, 255, 255, 0.08);
+  --v3-border: rgba(255, 255, 255, 0.15);
 }
 
-.invitation-page .container {
+.v3-root {
+  background: var(--v3-bg);
+  color: var(--v3-text);
+  font-family: Pretendard, sans-serif;
+  height: 100vh;
+  overflow-y: auto;
+  scroll-snap-type: y mandatory;
+  scroll-behavior: smooth;
+  position: relative;
+}
+
+.v3-bg-glow {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  background: 
+    radial-gradient(circle at 50% 120%, rgba(220, 30, 80, 0.3) 0%, transparent 70%),
+    linear-gradient(180deg, #2d0a15 0%, #120508 100%);
+  pointer-events: none;
+}
+
+.v3-canvas-wrapper {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0.95;
+}
+
+.v3-section {
+  height: 100vh;
   width: 100%;
-  padding: 20px;
-  box-sizing: border-box;
-  display: flex;
-  justify-content: center;
-}
-
-.invitation-page .card {
-  background-color: var(--card-bg);
-  border-radius: 16px;
-  box-shadow: var(--shadow);
-  padding: 40px 30px;
-  width: 100%;
-  max-width: 420px;
-  text-align: center;
-  border: 1px solid rgba(123, 28, 53, 0.05);
-}
-
-.invitation-page .title {
-  font-family: 'Playfair Display', serif;
-  color: var(--wine-red);
-  margin: 0 0 10px 0;
-  font-size: 2rem;
-  letter-spacing: -0.5px;
-  line-height: 1.2;
-}
-
-.invitation-page .subtitle {
-  color: var(--text-muted);
-  font-size: 0.95rem;
-  margin: 0 0 35px 0;
-  font-weight: 300;
-}
-
-.invitation-page .form {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  justify-content: center;
+  align-items: center;
+  padding: 0 24px;
+  box-sizing: border-box;
+  scroll-snap-align: start;
+  position: relative;
+  overflow: hidden;
+  z-index: 2;
+}
+
+/* Glassmorphism Card Style */
+.v3-card {
+  background: var(--v3-glass);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--v3-border);
+  border-radius: 24px;
+  padding: 60px 40px;
+  margin: 0 12px;
+  max-width: 500px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+  transform: translateY(20px);
+  opacity: 0;
+  transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  /* display: none;  */
+}
+
+.v3-section.visible .v3-card {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+/* Typography */
+h1 {
+  font-size: clamp(32px, 6vw, 54px);
+  font-weight: 700;
   margin-bottom: 20px;
+  line-height: 1.1;
+  text-shadow: 0 4px 12px rgba(0,0,0,0.5);
 }
 
-.invitation-page .input {
-  width: 100%;
-  padding: 14px 16px;
-  border: 1px solid var(--border-color);
-  border-radius: 8px;
-  font-size: 1rem;
-  font-family: inherit;
-  box-sizing: border-box;
-  transition: all 0.2s ease;
-  background-color: #faf9f9;
-  text-align: center;
+p {
+  font-size: clamp(16px, 1.5vw, 20px);
+  color: rgba(255, 235, 240, 0.85);
+  line-height: 1.6;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.5);
 }
 
-.invitation-page .input:focus {
-  outline: none;
-  border-color: var(--wine-red);
-  background-color: #fff;
-  box-shadow: 0 0 0 3px rgba(123, 28, 53, 0.1);
-}
-
-.invitation-page .input::placeholder {
-  color: #adb5bd;
-}
-
-.invitation-page .button {
-  background-color: var(--wine-red);
-  color: white;
-  border: none;
-  padding: 14px 20px;
-  border-radius: 8px;
-  font-size: 1rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: background-color 0.2s ease, transform 0.1s ease;
-  font-family: inherit;
-  width: 100%;
-}
-
-.invitation-page .button:hover {
-  background-color: var(--wine-red-light);
-}
-
-.invitation-page .button:active {
-  transform: scale(0.98);
-}
-
-.invitation-page .button.secondary {
-  background-color: transparent;
-  color: var(--wine-red);
-  border: 1px solid var(--wine-red);
-  padding: 10px 16px;
-  margin-top: 15px;
-}
-
-.invitation-page .button.secondary:hover {
-  background-color: rgba(123, 28, 53, 0.05);
-}
-
-.invitation-page .qr-container {
-  margin-top: 40px;
-  padding-top: 30px;
-  border-top: 1px dashed var(--border-color);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  animation: fadeIn 0.4s ease;
-}
-
-.invitation-page .qr-wrapper {
+/* QR and Info */
+.v3-qr-box {
+  width: 180px;
+  height: 180px;
   background: white;
-  padding: 15px;
+  padding: 10px;
   border-radius: 12px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-  border: 1px solid var(--border-color);
-  display: inline-block;
-  margin-bottom: 12px;
+  margin: 0 auto 24px;
 }
 
-.invitation-page .qr-value {
-  margin: 0;
-  font-family: monospace;
-  font-size: 1.1rem;
-  color: var(--text-main);
-  letter-spacing: 1px;
-  font-weight: 600;
+.v3-qr-box img {
+  width: 100%;
+  height: 100%;
 }
 
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(-10px); }
-  to { opacity: 1; transform: translateY(0); }
+.v3-info {
+  margin-top: 32px;
+}
+
+.v3-info-row {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--v3-border);
+  padding: 12px 0;
+}
+
+.v3-info-label {
+  color: var(--v3-wine);
+  font-weight: 700;
+  font-size: 14px;
+}
+
+.v3-info-value {
+  font-weight: 500;
+}
+
+/* Floating Elements (Optimized) */
+.v3-floating {
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  background: radial-gradient(circle, rgba(180, 24, 60, 0.1) 0%, transparent 70%);
+  border-radius: 50%;
+  z-index: -1;
+  animation: v3-float 20s infinite linear;
+}
+
+@keyframes v3-float {
+  from { transform: translate(0, 0); }
+  to { transform: translate(100vw, 100vh); }
+}
+
+/* Logo Hero Section Styles */
+.v3-logo-hero {
+  z-index: 3;
+}
+
+.v3-logo-box {
+  width: min(60vw, 400px);
+  text-align: center;
+  animation: v3-logo-init 1.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.v3-main-logo {
+  width: 100%;
+  height: auto;
+  filter: drop-shadow(0 10px 30px rgba(0,0,0,0.5));
+}
+
+@keyframes v3-logo-init {
+  from { opacity: 0; transform: translateY(20px) scale(0.95); filter: blur(10px); }
+  to { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+}
+
+@media (max-width: 600px) {
+  .v3-section {
+    padding: 0 32px;
+  }
+  .v3-card {
+    padding: 40px 24px;
+    margin: 0 8px;
+  }
 }
