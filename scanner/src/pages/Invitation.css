@@ -11,6 +11,12 @@
   --v3-border: rgba(255, 255, 255, 0.15);
 }
 
+html, body {
+  margin: 0;
+  padding: 0;
+  background-color: #2d0a15; /* Exact hex for --v3-bg */
+}
+
 * {
   box-sizing: border-box;
 }
@@ -20,6 +26,7 @@
   color: var(--v3-text);
   font-family: Pretendard, sans-serif;
   height: 100vh;
+  height: 100dvh;
   overflow-y: auto;
   overflow-x: hidden;
   scroll-snap-type: y mandatory;
@@ -47,6 +54,7 @@
 
 .v3-section {
   height: 100vh;
+  height: 100dvh;
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -346,7 +354,7 @@ p {
 
 @keyframes v3-float {
   from { transform: translate(0, 0); }
-  to { transform: translate(100vw, 100vh); }
+  to { transform: translate(100vw, 100dvh); }
 }
 
 /* Logo Hero Section Styles */
