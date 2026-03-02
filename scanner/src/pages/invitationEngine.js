@@ -24,10 +24,10 @@ export function initInvitationEngine(container) {
   let _rafId = null;
 
   // --- FINAL TUNED CONSTANTS ---
-  const CAMERA_START_POS = { x: 0, y: 4, z: 0 }; 
+  const CAMERA_START_POS = { x: 0, y: 4, z: -0.1 }; 
   const CAMERA_START_LOOKAT = { x: -1, y: 0, z: 0 };
-  const CAMERA_DEST_POS = { x: 0.5, y: 1.5, z: 1 }; 
-  const CAMERA_DEST_LOOKAT = { x: 0, y: 0, z: 0 };
+  const CAMERA_DEST_POS = { x: 1, y: 1.5, z: 1 }; 
+  const CAMERA_DEST_LOOKAT = { x: 0, y: 0.3, z: -0.5 };
 
 
   // Perfect alignment found by user
@@ -37,7 +37,7 @@ export function initInvitationEngine(container) {
   const BOWL_HEIGHT = BOWL_TOP_Y - BOWL_BOTTOM_Y;
 
   // --- CLINK TUNING VARIABLES ---
-  const GLASS2_START_X = 4;
+  const GLASS2_START_X = 1.5; // Nearer start to prevent sudden pop-in
   const GLASS2_DEST_X = 0.65; // Slightly further for "pre-clink" stop
   const SLIDE_START_T = 0.33; // Start moving Glass 2 as we leave Hero (Section 1)
   const SLIDE_END_T = 0.6;    // Arrive at Story (Section 2) -> STOPS EARLIER
@@ -240,6 +240,10 @@ export function initInvitationEngine(container) {
         (_scrollT - SLIDE_START_T) / (SLIDE_END_T - SLIDE_START_T), 
         0, 1
       );
+      
+      // Hide until it starts moving 
+      _wine2.visible = slideProgress > 0;
+      
       const targetX2 = THREE.MathUtils.lerp(GLASS2_START_X, GLASS2_DEST_X, slideProgress);
       _wine2.position.set(targetX2, -0.6 + floatY, -bZ + 0.1);
       

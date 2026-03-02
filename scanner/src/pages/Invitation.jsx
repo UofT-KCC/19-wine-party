@@ -80,6 +80,12 @@ const Invitation = () => {
     };
     window.addEventListener('resize', handleResize);
 
+    // Force scroll to top on mount and set initial progress
+    if (scrollRef.current) {
+      scrollRef.current.scrollTop = 0;
+      engineRef.current?.setScrollProgress(0);
+    }
+
     return () => {
       sectionObserver.disconnect();
       engineVisibilityObserver.disconnect();
