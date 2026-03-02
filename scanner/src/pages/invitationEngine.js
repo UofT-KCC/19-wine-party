@@ -38,10 +38,10 @@ export function initInvitationEngine(container) {
 
   // --- CLINK TUNING VARIABLES ---
   const GLASS2_START_X = 4;
-  const GLASS2_DEST_X = 0.6; // Adjust this to prevent overlap (clink point)
+  const GLASS2_DEST_X = 0.65; // Slightly further for "pre-clink" stop
   const SLIDE_START_T = 0.33; // Start moving Glass 2 as we leave Hero (Section 1)
-  const SLIDE_END_T = 0.66;   // Arrive at Story (Section 2)
-  const CLINK_START_T = 0.66; // Start clink as we leave Story (Section 2)
+  const SLIDE_END_T = 0.6;    // Arrive at Story (Section 2) -> STOPS EARLIER
+  const CLINK_START_T = 0.6;  // Start clink BEFORE reaching snap 3
   const CLINK_END_T = 1.0;    // Clink finishes as we reach QR (Section 3)
 
   async function init() {
@@ -265,9 +265,9 @@ export function initInvitationEngine(container) {
         _wine2.position.x -= bounce;
       }
 
-      // Fill Glass 1 (33-66%) - Fills during Hero -> Story transition
+      // Fill Glass 1 (0-33%) - Fills during Logo -> Hero transition
       if (_liquidMat && _liquidMat.userData.shader) {
-        const fillProgress = THREE.MathUtils.clamp((_scrollT - 0.33) / 0.33, 0, 1);
+        const fillProgress = THREE.MathUtils.clamp(_scrollT / 0.33, 0, 1);
         const fillTarget = BOWL_BOTTOM_Y + fillProgress * BOWL_HEIGHT * 0.7;
         _liquidMat.userData.shader.uniforms.uFillY.value = fillTarget; 
       }

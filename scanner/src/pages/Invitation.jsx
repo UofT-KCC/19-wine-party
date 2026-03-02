@@ -1,8 +1,18 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import QRCode from 'react-qr-code';
 import { initInvitationEngine } from './invitationEngine';
 import './Invitation.css';
 
 const Invitation = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const queryParams = new URLSearchParams(location.search);
+  const initialCode = queryParams.get('code') || '';
+
+  const [code, setCode] = useState(initialCode);
+  const [submitted, setSubmitted] = useState(!!initialCode);
+  const [showScrollHint, setShowScrollHint] = useState(true);
   const scrollRef = useRef(null);
   const canvasContainerRef = useRef(null);
   const engineRef = useRef(null);
@@ -50,6 +60,13 @@ const Invitation = () => {
         const scrollHeight = scrollRef.current.scrollHeight - scrollRef.current.clientHeight;
         const progress = Math.max(0, Math.min(1, scrollTop / scrollHeight));
         engineRef.current.setScrollProgress(progress);
+
+        // Hide hint when nearing the end (Phase 4)
+        if (progress > 0.8) {
+          setShowScrollHint(false);
+        } else if (progress < 0.1) {
+          setShowScrollHint(true);
+        }
       }
     };
 
@@ -72,6 +89,14 @@ const Invitation = () => {
     };
   }, []);
 
+  const handleCodeSubmit = (e) => {
+    if (e) e.preventDefault();
+    if (code.trim()) {
+      setSubmitted(true);
+      navigate(`?code=${encodeURIComponent(code.trim())}`, { replace: true });
+    }
+  };
+
   return (
     <div className="v3-root" ref={scrollRef}>
       <div className="v3-bg-glow" aria-hidden="true" />
@@ -88,21 +113,63 @@ const Invitation = () => {
 
       {/* Phase 2: Hero Section */}
       <section className="v3-section">
-        <div className="v3-card">
-          <h1>함께하면 더<br/>특별한 밤.</h1>
-          <p>오늘, UTKCC와 함께 건배하세요</p>
+        <div className="v3-card v3-card-hero">
+          <div className="v3-hero-tag">UTKCC 2026</div>
+          <h1 className="v3-title-rewined">RE;WINED</h1>
+          <p className="v3-tagline">Your Career, Aging to Excellence 🍷</p>
+          
+          <div className="v3-hero-questions">
+            <p className="v3-q-item"><span>📌</span> 의미 있는 연결을 찾고 계신가요?</p>
+            <p className="v3-q-item"><span>📌</span> 커리어의 방향을 더 그리고 싶으신가요?</p>
+            <p className="v3-q-item"><span>📌</span> 깊이 있는 인사이트가 필요하신가요?</p>
+          </div>
         </div>
       </section>
 
-      {/* Phase 3: Story Section */}
+      {/* Phase 3: Program Section */}
       <section className="v3-section">
-        <div className="v3-card">
-          <h1>대화가 쌓일수록<br/>깊어진다.</h1>
-          <p>
-            서로의 잔을 채우며 시작되는 대화,<br/>
-            특별한 공연과 함께하는 풍성한 디너가<br/>
-            여러분을 기다립니다.
-          </p>
+        <div className="v3-card v3-card-program">
+          <h2 className="v3-program-title">PROGRAM</h2>
+          
+          <div className="v3-program-group">
+            <div className="v3-part-header">🍷 Part 1 | Insight Pairing</div>
+            <div className="v3-program-item">
+              <span className="v3-icon">✉️</span>
+              <div className="v3-item-content">
+                <strong>1-1 | Fireside Chat Panel</strong>
+                <span>각 분야 선배님들과의 Q&A 패널 토크</span>
+              </div>
+            </div>
+            <div className="v3-program-item">
+              <span className="v3-icon">✉️</span>
+              <div className="v3-item-content">
+                <strong>1-2 | Your Story, Their Advice</strong>
+                <span>사전 질문 기반 인터랙티브 Q&A</span>
+              </div>
+            </div>
+          </div>
+
+          <div className="v3-program-divider"></div>
+
+          <div className="v3-program-group">
+            <div className="v3-part-header">🍷 Part 2 | Career Networking</div>
+            <div className="v3-program-item">
+              <span className="v3-icon">✉️</span>
+              <div className="v3-item-content">
+                <strong>2-1 | Industry Group Networking</strong>
+                <span>관심 분야별 소규모 그룹 세션</span>
+              </div>
+            </div>
+            <div className="v3-program-item">
+              <span className="v3-icon">✉️</span>
+              <div className="v3-item-content">
+                <strong>2-2 | Open Networking</strong>
+                <span>자유로운 대화와 인연의 확장</span>
+              </div>
+            </div>
+          </div>
+          
+          <p className="v3-program-footer">좋은 대화와 새로운 연결이 숙성되는 순간.</p>
         </div>
       </section>
 
@@ -111,17 +178,48 @@ const Invitation = () => {
         <div className="v3-card">
           <h1>INVITATION</h1>
           <div className="v3-qr-box">
-            <img src="/icons/qrcode.png" alt="QR Code" />
+            <div className="v3-qr-container">
+              {submitted && code ? (
+                <div className="v3-qr-display" onClick={() => !initialCode && setSubmitted(false)} style={{ cursor: !initialCode ? 'pointer' : 'default' }}>
+                  <QRCode 
+                    value={code}
+                    size={180}
+                    style={{ height: "auto", maxWidth: "100%", width: "100%" }}
+                    viewBox={`0 0 256 256`}
+                  />
+                  {!initialCode && <p className="v3-qr-hint">Tap to edit</p>}
+                </div>
+              ) : (
+                <form className="v3-qr-input-form" onSubmit={handleCodeSubmit}>
+                  <input 
+                    type="text" 
+                    value={code}
+                    placeholder="Enter code" 
+                    className="v3-qr-input"
+                    onChange={(e) => setCode(e.target.value)}
+                    autoFocus
+                  />
+                  <button type="submit" className="v3-qr-submit">ENTER</button>
+                </form>
+              )}
+            </div>
           </div>
+          {submitted && code && (
+            <p className="v3-qr-footer">SCAN AT ENTRANCE</p>
+          )}
           
           <div className="v3-info">
             <div className="v3-info-row">
               <span className="v3-info-label">TIME</span>
-              <span className="v3-info-value">2026. 03. 14. 18:00</span>
+              <span className="v3-info-value">March 7, 2026 7PM</span>
             </div>
             <div className="v3-info-row">
               <span className="v3-info-label">PLACE</span>
-              <span className="v3-info-value">강남구 테헤란로 카페 루이</span>
+              <span className="v3-info-value">1 Bloor St E</span>
+            </div>
+            <div className="v3-info-row">
+              <span className="v3-info-label">DRESS CODE</span>
+              <span className="v3-info-value">Formal Cocktail Attire</span>
             </div>
           </div>
         </div>
@@ -130,6 +228,12 @@ const Invitation = () => {
       {/* Visual background elements */}
       <div className="v3-floating" style={{ top: '20%', left: '10%' }}></div>
       <div className="v3-floating" style={{ top: '70%', right: '15%', animationDelay: '2s' }}></div>
+
+      {/* Scroll Hint */}
+      <div className={`v3-scroll-hint ${!showScrollHint ? 'hidden' : ''}`}>
+        <div className="v3-arrow"></div>
+        <span>SCROLL</span>
+      </div>
     </div>
   );
 };
