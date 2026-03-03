@@ -383,7 +383,7 @@ p {
 .v2-title-blink {
   position: absolute;
   top: -100%;
-  right: 10%;
+  right: 8%;
   width: min(25vw, 120px);
   height: auto;
   pointer-events: none;
