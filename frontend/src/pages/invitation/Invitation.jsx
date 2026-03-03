@@ -1,17 +1,17 @@
 import { useEffect, useRef, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import QRCode from 'react-qr-code';
-import { initInvitationV2Engine } from './invitationEngineV2';
-import './InvitationV2.css';
+import { initInvitationEngine } from './invitationEngine';
+import './Invitation.css';
 
 // SVG Assets
-import titleSvg from '../assets/title.svg';
-import blinkPng from '../assets/blink.png';
-import slide1Svg from '../assets/slide-1.svg';
-import slide2Svg from '../assets/slide-2.svg';
-import slide3Svg from '../assets/slide-3.svg';
+import titleSvg from '../../assets/title.svg';
+import blinkPng from '../../assets/blink.png';
+import slide1Svg from '../../assets/slide-1.svg';
+import slide2Svg from '../../assets/slide-2.svg';
+import slide3Svg from '../../assets/slide-3.svg';
 
-const InvitationV2 = () => {
+const Invitation = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const queryParams = new URLSearchParams(location.search);
@@ -27,7 +27,7 @@ const InvitationV2 = () => {
 
   useEffect(() => {
     if (canvasContainerRef.current) {
-      engineRef.current = initInvitationV2Engine(canvasContainerRef.current);
+      engineRef.current = initInvitationEngine(canvasContainerRef.current);
     }
 
     const observerOptions = {
@@ -220,4 +220,4 @@ const InvitationV2 = () => {
   );
 };
 
-export default InvitationV2;
+export default Invitation;

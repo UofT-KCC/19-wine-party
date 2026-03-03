@@ -1,5 +1,5 @@
 import { useState, useCallback, useRef, useEffect } from 'react';
-import QRScanner from '../components/QRScanner';
+import QRScanner from '../../components/QRScanner';
 import './Scanner.css';
 
 function Scanner() {

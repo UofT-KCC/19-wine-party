@@ -8,7 +8,7 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
  * 2. Resource management.
  * 3. Throttled/Smooth animations.
  */
-export function initInvitationV2Engine(container) {
+export function initInvitationEngine(container) {
   let _disposed = false;
   let _paused = false;
   let _renderer = null;
