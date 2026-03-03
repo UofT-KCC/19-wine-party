@@ -380,6 +380,21 @@ p {
   top: -15px;
 }
 
+.v2-title-blink {
+  position: absolute;
+  top: -20%;
+  right: 5%;
+  width: min(25vw, 120px);
+  height: auto;
+  pointer-events: none;
+  animation: v2-blink-pulse 3s infinite ease-in-out;
+}
+
+@keyframes v2-blink-pulse {
+  0%, 100% { opacity: 0.3; transform: scale(0.95) rotate(0deg); }
+  50% { opacity: 1; transform: scale(1.05) rotate(5deg); }
+}
+
 .v2-logo-box {
   width: min(60vw, 400px);
   text-align: center;

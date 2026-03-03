@@ -6,6 +6,7 @@ import './InvitationV2.css';
 
 // SVG Assets
 import titleSvg from '../assets/title.svg';
+import blinkPng from '../assets/blink.png';
 import slide1Svg from '../assets/slide-1.svg';
 import slide2Svg from '../assets/slide-2.svg';
 import slide3Svg from '../assets/slide-3.svg';
@@ -133,6 +134,7 @@ const InvitationV2 = () => {
       <section className="v2-section v2-logo-hero">
         <div className="v2-slide-container v2-title-box">
           <img src={titleSvg} alt="Title Slide" className="v2-slide-img" />
+          <img src={blinkPng} alt="Blink" className="v2-title-blink" />
         </div>
       </section>
 
