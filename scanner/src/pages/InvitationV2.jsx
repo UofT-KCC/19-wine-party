@@ -131,7 +131,7 @@ const InvitationV2 = () => {
 
       {/* Phase 0: Title Section */}
       <section className="v2-section v2-logo-hero">
-        <div className="v2-slide-container">
+        <div className="v2-slide-container v2-title-box">
           <img src={titleSvg} alt="Title Slide" className="v2-slide-img" />
         </div>
       </section>

@@ -375,6 +375,11 @@ p {
   z-index: 3;
 }
 
+.v2-title-box {
+  position: relative;
+  top: -15px;
+}
+
 .v2-logo-box {
   width: min(60vw, 400px);
   text-align: center;
