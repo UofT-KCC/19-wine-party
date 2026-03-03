@@ -105,7 +105,7 @@ export function initInvitationV2Engine(container) {
 
       const liquidGeom = new THREE.LatheGeometry(points, 64);
       _liquidMat = new THREE.MeshPhysicalMaterial({
-        color: 0x722f37,
+        color: 0x793142,
         roughness: 0.12,
         transmission: 0.08,
         thickness: 0.8,
@@ -152,7 +152,7 @@ export function initInvitationV2Engine(container) {
 
       // Liquid 2 (Pre-filled)
       _liquidMat2 = new THREE.MeshPhysicalMaterial({
-        color: 0x722f37,
+        color: 0x793142,
         roughness: 0.12,
         transmission: 0.08,
         thickness: 0.8,
@@ -259,17 +259,36 @@ export function initInvitationV2Engine(container) {
         0, 1
       );
       if (clinkProgress > 0) {
-        // Glass 1 tilts towards Glass 2 and bounces back
-        const glass1Tilt = Math.sin(clinkProgress * Math.PI) * 0.1;
-        _wine.rotation.z = -glass1Tilt;
-        _wine.position.x = -bX - 0.2 + (Math.sin(clinkProgress * Math.PI) * 0.02); // slight move towards
+        // Snappier approach curve
+        const snapP = Math.pow(Math.sin(clinkProgress * Math.PI * 0.5), 0.5);
+        
+        // Overshoot and Rebound logic
+        // We use a sine wave that goes up to 1.2 then settles back to 0
+        const overshoot = Math.sin(clinkProgress * Math.PI * 1.2) * 1.1; 
+        
+        // High frequency vibration (Chime)
+        // Only active near the peak of the impact (clinkProgress ~0.5-0.7)
+        const chimeStart = 0.55;
+        const chimeFreq = 60.0;
+        let vibration = 0;
+        if (clinkProgress > chimeStart) {
+          const chimeP = (clinkProgress - chimeStart) / (1.0 - chimeStart);
+          vibration = Math.sin(chimeP * chimeFreq) * 0.015 * Math.exp(-chimeP * 4.0);
+        }
 
-        // Subtle impact tilt for Glass 2
-        const impact = Math.sin(clinkProgress * Math.PI) * 0.12;
-        _wine2.rotation.z = 0.15 + impact;
+        // Glass 1 tilts towards Glass 2
+        const glass1Tilt = overshoot * 0.12 + vibration;
+        _wine.rotation.z = -glass1Tilt;
+        _wine.position.x = -bX - 0.2 + (overshoot * 0.03); 
+
+        // Glass 2 impact and vibration
+        const glass2TiltBase = 0.15;
+        const glass2Impact = overshoot * 0.15;
+        _wine2.rotation.z = glass2TiltBase + glass2Impact + vibration;
+        
         // Move slightly closer for the "clink"
-        const bounce = Math.sin(clinkProgress * Math.PI) * 0.05;
-        _wine2.position.x -= bounce;
+        const bounce = overshoot * 0.06;
+        _wine2.position.x = targetX2 - bounce;
       }
 
       // Fill Glass 1 (0-33%) - Fills during Logo -> Hero transition

@@ -142,6 +142,7 @@ const InvitationV2 = () => {
       <section className="v2-section">
         <div className="v2-slide-container">
           <img src={slide1Svg} alt="Slide 1" className="v2-slide-img" />
+          <img src={blinkPng} alt="Blink" className="v2-title-blink-slides" />
         </div>
       </section>
 
@@ -149,6 +150,7 @@ const InvitationV2 = () => {
       <section className="v2-section">
         <div className="v2-slide-container">
           <img src={slide2Svg} alt="Slide 2" className="v2-slide-img" />
+          <img src={blinkPng} alt="Blink" className="v2-title-blink-slides" />
         </div>
       </section>
 
@@ -156,7 +158,7 @@ const InvitationV2 = () => {
       <section className="v2-section">
         <div className="v2-slide-container">
           <img src={slide3Svg} alt="Slide 3" className="v2-slide-img" />
-          
+          <img src={blinkPng} alt="Blink" className="v2-title-blink-slides" />
           <div className="v2-qr-overlay">
             <div className="v2-qr-container">
               {submitted && code ? (
@@ -168,6 +170,8 @@ const InvitationV2 = () => {
                   <QRCode 
                     value={code}
                     size={160}
+                    fgColor="white"
+                    bgColor="transparent"
                     style={{ height: "auto", maxWidth: "100%", width: "100%" }}
                     viewBox={`0 0 256 256`}
                   />
