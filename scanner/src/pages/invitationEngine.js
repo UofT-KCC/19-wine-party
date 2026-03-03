@@ -21,6 +21,7 @@ export function initInvitationEngine(container) {
   let _liquidMat = null;
   let _liquidMat2 = null;
   let _scrollT = 0;
+  let _targetScrollT = 0;
   let _rafId = null;
 
   // --- FINAL TUNED CONSTANTS ---
@@ -212,6 +213,9 @@ export function initInvitationEngine(container) {
     _rafId = requestAnimationFrame(animate);
 
     if (_wine && _wine2) {
+      // Smooth lerp for scroll position to handle abrupt snapping
+      _scrollT = THREE.MathUtils.lerp(_scrollT, _targetScrollT, 0.08);
+
       const floatY = Math.sin(Date.now() * 0.001) * 0.03;
       const scale = _wine.scale.x;
       const bX = LIQUID_OFFSETS.x * scale;
@@ -284,7 +288,7 @@ export function initInvitationEngine(container) {
   }
 
   function setScrollProgress(t) {
-    _scrollT = t;
+    _targetScrollT = t;
   }
 
   function onResize() {
