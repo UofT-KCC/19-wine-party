@@ -282,7 +282,7 @@ p {
   padding: 8px 4px;
   border-radius: 10px;
   font-family: Pretendard, sans-serif;
-  font-size: 16px;
+  font-size: 12px;
   text-align: center;
   outline: none;
   background: transparent;
@@ -300,7 +300,7 @@ p {
   padding: 10px 20px;
   border-radius: 10px;
   font-weight: 700;
-  font-size: 14px;
+  font-size: 12px;
   cursor: pointer;
   transition: all 0.2s ease;
   width: 120%;
@@ -377,7 +377,7 @@ p {
 
 .v2-title-box {
   position: relative;
-  top: -15px;
+  top: -10px;
 }
 
 .v2-title-blink {
