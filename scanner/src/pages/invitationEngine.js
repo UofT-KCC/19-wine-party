@@ -23,6 +23,7 @@ export function initInvitationEngine(container) {
   let _scrollT = 0;
   let _targetScrollT = 0;
   let _rafId = null;
+  let _shineMesh = null;
 
   // --- FINAL TUNED CONSTANTS ---
   const CAMERA_START_POS = { x: 1, y: 1.8, z: 1 };
@@ -140,6 +141,25 @@ export function initInvitationEngine(container) {
            #include <dithering_fragment>`
         );
       };
+
+      // Setup Shine Mesh (Previously Sprite)
+      const textureLoader = new THREE.TextureLoader();
+      const shineTexture = textureLoader.load('/blink.png');
+      const shineMat = new THREE.MeshBasicMaterial({ 
+        map: shineTexture, 
+        transparent: true, 
+        opacity: 0,
+        blending: THREE.AdditiveBlending,
+        depthTest: false,
+        side: THREE.DoubleSide
+      });
+      const shineGeom = new THREE.PlaneGeometry(0.15, 0.15);
+      _shineMesh = new THREE.Mesh(shineGeom, shineMat);
+      // Position on the rim of Glass 1
+      _shineMesh.position.set(LIQUID_OFFSETS.x + 0.14, BOWL_TOP_Y + 0.02, LIQUID_OFFSETS.z + 0.05);
+      // Make it face the camera (roughly)
+      _shineMesh.rotation.y = Math.PI * 0.25;
+      _wine.add(_shineMesh);
 
       // --- Setup Second Glass (Clink Partner) ---
       // Clone the whole glass hierarchy AFTER material setup but BEFORE adding liquid 1
@@ -300,6 +320,20 @@ export function initInvitationEngine(container) {
       
       if (_liquidMat2 && _liquidMat2.userData.shader) {
         _liquidMat2.userData.shader.uniforms.uFillY.value = BOWL_BOTTOM_Y + BOWL_HEIGHT * 0.7;
+      }
+
+      // Shine Animation
+      if (_shineMesh) {
+        const shineTime = Date.now() * 0.001;
+        // Periodic blink: stays off, then fades in/out
+        const blinkCycle = (Math.sin(shineTime * 1.5) + 1) * 0.5; // 0 to 1
+        const intensity = Math.pow(blinkCycle, 8); // Sharper peak
+        _shineMesh.material.opacity = intensity * 0.8;
+        _shineMesh.scale.setScalar(0.7 + intensity * 0.4);
+        _shineMesh.rotation.z = shineTime * 0.5;
+        
+        // Billboarding: make it face the camera manually if needed, 
+        // but for a fixed scene like this, a static rotation is often cleaner.
       }
     }
 
