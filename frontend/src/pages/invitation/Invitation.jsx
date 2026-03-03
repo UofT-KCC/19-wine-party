@@ -8,7 +8,9 @@ import './Invitation.css';
 import titleSvg from '../../assets/title.svg';
 import blinkPng from '../../assets/blink.png';
 import slide1Svg from '../../assets/slide-1.svg';
+import slide1EnSvg from '../../assets/slide-1-en.svg';
 import slide2Svg from '../../assets/slide-2.svg';
+import slide2EnSvg from '../../assets/slide-2-en.svg';
 import slide3Svg from '../../assets/slide-3.svg';
 
 const Invitation = () => {
@@ -21,6 +23,7 @@ const Invitation = () => {
   const [submitted, setSubmitted] = useState(!!initialCode);
   const [showScrollHint, setShowScrollHint] = useState(true);
   const [activeIndex, setActiveIndex] = useState(0);
+  const [lang, setLang] = useState('KR'); // 'KR' or 'EN'
   const scrollRef = useRef(null);
   const canvasContainerRef = useRef(null);
   const engineRef = useRef(null);
@@ -130,6 +133,15 @@ const Invitation = () => {
       {/* 3D Canvas Container */}
       <div className="v2-canvas-wrapper" ref={canvasContainerRef}></div>
 
+      {/* Language Toggle */}
+      <button 
+        className={`v2-lang-toggle ${activeIndex === 0 ? 'hidden' : ''}`}
+        onClick={() => setLang(lang === 'KR' ? 'EN' : 'KR')}
+        aria-label="Toggle Language"
+      >
+        {lang === 'KR' ? 'EN' : 'KR'}
+      </button>
+
       {/* Phase 0: Title Section */}
       <section className="v2-section v2-logo-hero">
         <div className="v2-slide-container v2-title-box">
@@ -141,7 +153,7 @@ const Invitation = () => {
       {/* Phase 1: Slide 1 */}
       <section className="v2-section">
         <div className="v2-slide-container">
-          <img src={slide1Svg} alt="Slide 1" className="v2-slide-img" />
+          <img src={lang === 'KR' ? slide1Svg : slide1EnSvg} alt="Slide 1" className="v2-slide-img" />
           <img src={blinkPng} alt="Blink" className="v2-title-blink-slides" />
         </div>
       </section>
@@ -149,7 +161,7 @@ const Invitation = () => {
       {/* Phase 2: Slide 2 */}
       <section className="v2-section">
         <div className="v2-slide-container">
-          <img src={slide2Svg} alt="Slide 2" className="v2-slide-img" />
+          <img src={lang === 'KR' ? slide2Svg : slide2EnSvg} alt="Slide 2" className="v2-slide-img" />
           <img src={blinkPng} alt="Blink" className="v2-title-blink-slides" />
         </div>
       </section>

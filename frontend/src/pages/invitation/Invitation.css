@@ -61,6 +61,40 @@ html, body {
   opacity: 0.95;
 }
 
+.v2-lang-toggle {
+  position: fixed;
+  top: calc(20px + env(safe-area-inset-top));
+  right: 20px;
+  z-index: 1000;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: white;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.v2-lang-toggle.hidden {
+  opacity: 0;
+  pointer-events: none;
+  transform: translateX(20px);
+}
+
+.v2-lang-toggle:hover:not(.hidden) {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-1px);
+}
+
+.v2-lang-toggle:active:not(.hidden) {
+  transform: translateY(0);
+}
+
 .v2-section {
   height: 100dvh;
   width: 100%;
