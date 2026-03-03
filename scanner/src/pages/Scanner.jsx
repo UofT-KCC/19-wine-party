@@ -1,8 +1,12 @@
-import { useState, useCallback, useRef } from 'react';
+import { useState, useCallback, useRef, useEffect } from 'react';
 import QRScanner from '../components/QRScanner';
 import './Scanner.css';
 
 function Scanner() {
+  useEffect(() => {
+    document.title = "Wine Party QR Scanner";
+  }, []);
+
   const [isProcessing, setIsProcessing] = useState(false);
   const [status, setStatus] = useState({ type: '', text: '' });
   const [userName, setUserName] = useState('');
@@ -109,12 +113,36 @@ function Scanner() {
       });
   }, []); 
 
+  const toggleFullScreen = () => {
+    if (!document.fullscreenElement) {
+      document.documentElement.requestFullscreen().catch((err) => {
+        console.error(`Error attempting to enable fullscreen: ${err.message}`);
+      });
+    } else {
+      if (document.exitFullscreen) {
+        document.exitFullscreen();
+      }
+    }
+  };
+
   return (
     <div className="scanner-page">
+      <div className="v3-bg-glow" aria-hidden="true" />
+      
+      <button className="v3-fullscreen-btn" onClick={toggleFullScreen} aria-label="Toggle Fullscreen">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3" />
+        </svg>
+      </button>
+      
+      {/* Visual background elements */}
+      <div className="v3-floating" style={{ top: '10%', left: '-10%' }}></div>
+      <div className="v3-floating" style={{ bottom: '-10%', right: '-10%', animationDelay: '5s' }}></div>
+      
       <div className="app-container">
         <div className="header-section">
           <h2 className="title">UTKCC 19th Wine Party</h2>
-          <p className="subtitle">Please Scan the QR code from the Invitation</p>
+          <p className="subtitle">Please Scan your Invitation QR Code</p>
         </div>
         
         <div className="main-content">
@@ -122,33 +150,30 @@ function Scanner() {
             <QRScanner onScanSuccess={onScanSuccess} />
           </div>
           
-          <div className={`result-section ${scanSuccess ? 'success-mode' : ''}`} id="result-container">
+          <div className={`result-section ${scanSuccess ? 'success-mode' : ''}`}>
             <div className="result-header">
               <div className="status-msg">
-                QR 코드를 스캔해주세요
+                READY TO SCAN
               </div>
               <hr className="divider" />
             </div>
             
             <div className="result-body">
               {!isProcessing && !scanSuccess && !status.text && (
-                <div style={{ textAlign: 'center' }}>
-                  <div className="status-msg" style={{ marginBottom: '15px', color: 'var(--wine-red)', fontWeight: '600', lineHeight: '1.5' }}>
-                    이메일로 보내드린 초대장을 확인하여 <br />QR코드를 발급해주세요!
-                  </div>
-                  <div style={{ marginTop: '30px', fontSize: '0.8rem', color: '#999', fontWeight: '300' }}>
-                    입장에 도움이 필요하신 경우 안내 데스크로 문의 바랍니다.
+                <div>
+                  <div className="status-msg" style={{ color: 'var(--v3-wine)' }}>
+                    Please show your QR code <br />from the digital invitation.
                   </div>
                 </div>
               )}
 
               {status.text && (
-                <div id="status-text" className={`status-msg ${status.type}`} style={{ marginBottom: '15px' }}>
+                <div className={`status-msg ${status.type}`}>
                   {status.text}
                 </div>
               )}
               {userName && (
-                <div id="name-text" className="name-text" style={{ marginTop: '10px' }}>
+                <div className="name-text">
                   {userName}
                 </div>
               )}

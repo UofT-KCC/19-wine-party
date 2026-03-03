@@ -2,13 +2,13 @@ import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 
 /**
- * invitationEngine.js - Optimized 3D engine for Invitation.
+ * invitationEngineV2.js - Optimized 3D engine for Invitation V2 (Light Theme).
  * Features:
  * 1. Visibility-based pausing.
  * 2. Resource management.
  * 3. Throttled/Smooth animations.
  */
-export function initInvitationEngine(container) {
+export function initInvitationV2Engine(container) {
   let _disposed = false;
   let _paused = false;
   let _renderer = null;
@@ -24,13 +24,13 @@ export function initInvitationEngine(container) {
   let _rafId = null;
 
   // --- FINAL TUNED CONSTANTS ---
-  const CAMERA_START_POS = { x: 1, y: 1.8, z: 1 };
-  const CAMERA_START_LOOKAT = { x: 0, y: 0.3, z: -0.5 };
+  const CAMERA_START_POS = { x: 0.8, y: 1.8, z: 0.8 };
+  const CAMERA_START_LOOKAT = { x: 0, y: 0.4, z: 0.1 };
   const CAMERA_DEST_POS = { x: 1, y: 1.5, z: 1 };
   const CAMERA_DEST_LOOKAT = { x: 0, y: 0.3, z: -0.5 };
 
   // Perfect alignment found by user
-  const LIQUID_OFFSETS = { x: 0.182, z: 0.055 };
+  const LIQUID_OFFSETS = { x: 0.182, z: 0.052 };
   const BOWL_BOTTOM_Y = 0.45; 
   const BOWL_TOP_Y = 0.75; 
   const BOWL_HEIGHT = BOWL_TOP_Y - BOWL_BOTTOM_Y;

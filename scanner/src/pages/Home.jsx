@@ -1,6 +1,11 @@
 import { Link } from 'react-router-dom';
+import { useEffect } from 'react';
 
 function Home() {
+  useEffect(() => {
+    document.title = "UTKCC Wine Party";
+  }, []);
+
   return (
     <div style={{
       fontFamily: '-apple-system, sans-serif',

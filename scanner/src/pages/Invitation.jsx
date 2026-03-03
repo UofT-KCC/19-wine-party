@@ -94,6 +94,9 @@ const Invitation = () => {
       engineRef.current?.setScrollProgress(0);
     }
 
+    // Set Page Title
+    document.title = "Your invitation to Re;Wined";
+
     return () => {
       sectionObserver.disconnect();
       engineVisibilityObserver.disconnect();
