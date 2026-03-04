@@ -24,6 +24,7 @@ const Invitation = () => {
   const [showScrollHint, setShowScrollHint] = useState(true);
   const [activeIndex, setActiveIndex] = useState(0);
   const [lang, setLang] = useState('KR'); // 'KR' or 'EN'
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const scrollRef = useRef(null);
   const canvasContainerRef = useRef(null);
   const engineRef = useRef(null);
@@ -133,6 +134,24 @@ const Invitation = () => {
       {/* 3D Canvas Container */}
       <div className="v2-canvas-wrapper" ref={canvasContainerRef}></div>
 
+      {/* QR Zoom Modal */}
+      {isModalOpen && (
+        <div className="v2-qr-modal" onClick={() => setIsModalOpen(false)}>
+          <div className="v2-qr-modal-content">
+            <div className="v2-qr-box-modal">
+              <QRCode 
+                value={code}
+                size={300}
+                fgColor="#000000"
+                bgColor="#FFFFFF"
+                style={{ height: "auto", maxWidth: "100%", width: "100%" }}
+                viewBox={`0 0 256 256`}
+              />
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Language Toggle */}
       <button 
         className={`v2-lang-toggle ${activeIndex === 0 ? 'hidden' : ''}`}
@@ -176,8 +195,8 @@ const Invitation = () => {
               {submitted && code ? (
                 <div 
                   className="v2-qr-box-absolute" 
-                  onClick={() => !initialCode && setSubmitted(false)} 
-                  style={{ cursor: !initialCode ? 'pointer' : 'default' }}
+                  onClick={() => setIsModalOpen(true)} 
+                  style={{ cursor: 'pointer' }}
                 >
                   <QRCode 
                     value={code}
@@ -187,7 +206,6 @@ const Invitation = () => {
                     style={{ height: "auto", maxWidth: "100%", width: "100%" }}
                     viewBox={`0 0 256 256`}
                   />
-                  {!initialCode && <p className="v2-qr-hint">Tap to edit</p>}
                 </div>
               ) : (
                 <form className="v2-qr-input-form" onSubmit={handleCodeSubmit}>
