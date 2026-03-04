@@ -182,8 +182,8 @@ const Invitation = () => {
                   <QRCode 
                     value={code}
                     size={160}
-                    fgColor="white"
-                    bgColor="transparent"
+                    fgColor="#000000"
+                    bgColor="#FFFFFF"
                     style={{ height: "auto", maxWidth: "100%", width: "100%" }}
                     viewBox={`0 0 256 256`}
                   />
